@@ -1,0 +1,487 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Flutter探索之路--Chapter 1 | BobHongYuChen's Blog</title><meta name="description" content="Flutter探索之路–Chapter 1HelloWorld–国际惯例国际惯例编写Hello World import &amp;#x27;package:flutter&#x2F;material.dart&amp;#x27;;void main() &#x3D;&gt; runApp(new MyApp());class MyApp extends StatelessWidget &amp;#123;  @override  Widg"><meta name="keywords" content="Flutter探索之路"><meta name="author" content="BobHongYuChen"><meta name="copyright" content="BobHongYuChen"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2020/12/20/flutter_study_week1/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta property="og:type" content="article"><meta property="og:title" content="Flutter探索之路--Chapter 1"><meta property="og:url" content="http://example.com/2020/12/20/flutter_study_week1/"><meta property="og:site_name" content="BobHongYuChen's Blog"><meta property="og:description" content="Flutter探索之路–Chapter 1HelloWorld–国际惯例国际惯例编写Hello World import &amp;#x27;package:flutter&#x2F;material.dart&amp;#x27;;void main() &#x3D;&gt; runApp(new MyApp());class MyApp extends StatelessWidget &amp;#123;  @override  Widg"><meta property="og:image" content="https://i.loli.net/2021/01/01/CsrMxYN4GTBugfJ.jpg"><meta property="article:published_time" content="2020-12-20T03:41:10.000Z"><meta property="article:modified_time" content="2021-01-03T14:46:19.408Z"><meta name="twitter:card" content="summary"><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  hexoversion: '5.2.0',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime: '天',
+  date_suffix: {"one_hour":"刚刚","hours":"小时前","day":"天前"},
+  copyright: {"limitCount":50,"languages":{"author":"作者: BobHongYuChen","link":"链接: ","source":"来源: BobHongYuChen's Blog","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: {"bookmark":{"message_prev":"按","message_next":"键将本页加入书签"},"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#121212","position":"bottom-left"},
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  baiduPush: false,
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+    },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isSidebar: true,
+  postUpdate: '2021-01-03 22:46:19'
+}</script><noscript><style type="text/css">
+#nav {
+  opacity: 1
+}
+.justified-gallery img {
+  opacity: 1
+}
+</style></noscript><script>var activateDarkMode = function () {
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+  }
+}
+var activateLightMode = function () {
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+  }
+}
+
+var autoChangeMode = 'false'
+var t = saveToLocal.get('theme')
+if (autoChangeMode === '1') {
+  var isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+  var isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+  var isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined) {
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport) {
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour <= 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+    }
+    window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+      if (saveToLocal.get('theme') === undefined) {
+        e.matches ? activateDarkMode() : activateLightMode()
+      }
+    })
+  } else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else if (autoChangeMode === '2') {
+  now = new Date()
+  hour = now.getHours()
+  isNight = hour <= 6 || hour >= 18
+  if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else {
+  if (t === 'dark') activateDarkMode()
+  else if (t === 'light') activateLightMode()
+}</script><meta name="generator" content="Hexo 5.2.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">4</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">6</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">3</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音樂</span></a></li><li><a class="site-page" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 電影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div></div></div><div id="body-wrap"><div id="sidebar"><i class="fas fa-arrow-right on" id="toggle-sidebar"></i><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Flutter%E6%8E%A2%E7%B4%A2%E4%B9%8B%E8%B7%AF%E2%80%93Chapter-1"><span class="toc-number">1.</span> <span class="toc-text">Flutter探索之路–Chapter 1</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#HelloWorld%E2%80%93%E5%9B%BD%E9%99%85%E6%83%AF%E4%BE%8B"><span class="toc-number">1.1.</span> <span class="toc-text">HelloWorld–国际惯例</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%95%E7%94%A8%E5%BA%93"><span class="toc-number">1.1.1.</span> <span class="toc-text">引用库</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%80%E5%A7%8B%E5%AD%A6%E4%B9%A0%E2%80%93Flutter%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84"><span class="toc-number">1.2.</span> <span class="toc-text">开始学习–Flutter体系结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%80%E5%A7%8B%E5%AD%A6%E4%B9%A0%E2%80%93Flutter%E7%A8%8B%E5%BA%8F%E7%BB%93%E6%9E%84"><span class="toc-number">1.3.</span> <span class="toc-text">开始学习–Flutter程序结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%80%E5%A7%8B%E5%AD%A6%E4%B9%A0%E2%80%93%E6%89%93%E5%8C%85%E9%A1%B9%E7%9B%AE"><span class="toc-number">1.4.</span> <span class="toc-text">开始学习–打包项目</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BAkeystore%E8%AF%81%E4%B9%A6"><span class="toc-number">1.4.1.</span> <span class="toc-text">创建keystore证书</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E4%B8%AD%E9%85%8D%E7%BD%AE%E8%AF%81%E4%B9%A6"><span class="toc-number">1.4.2.</span> <span class="toc-text">代码中配置证书</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%A8Gradle%E4%B8%AD%E9%85%8D%E7%BD%AE%E7%AD%BE%E5%90%8D"><span class="toc-number">1.4.3.</span> <span class="toc-text">在Gradle中配置签名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9E%84%E5%BB%BA%E5%BA%94%E7%94%A8"><span class="toc-number">1.4.4.</span> <span class="toc-text">构建应用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Flutter%E7%9A%84Theme"><span class="toc-number">1.5.</span> <span class="toc-text">Flutter的Theme</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B1%80%E9%83%A8%E4%B8%BB%E9%A2%98"><span class="toc-number">1.5.1.</span> <span class="toc-text">局部主题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E7%89%B9%E6%9C%89%E7%9A%84%E4%B8%BB%E9%A2%98"><span class="toc-number">1.5.1.1.</span> <span class="toc-text">创建特有的主题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%89%A9%E5%B1%95%E7%88%B6%E4%B8%BB%E9%A2%98"><span class="toc-number">1.5.1.2.</span> <span class="toc-text">扩展父主题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9E%E6%88%98%E8%B7%9D%E7%A6%BB"><span class="toc-number">1.5.1.3.</span> <span class="toc-text">实战距离</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%80%E5%A7%8B%E5%AD%A6%E4%B9%A0%E2%80%93Stateful%E5%92%8CStateless-Widget"><span class="toc-number">1.6.</span> <span class="toc-text">开始学习–Stateful和Stateless Widget</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%98%E6%96%B9Demo%E7%AE%80%E5%8D%95%E5%88%86%E6%9E%90"><span class="toc-number">1.6.1.</span> <span class="toc-text">官方Demo简单分析</span></a></li></ol></li></ol></li></ol></div></div></div><header class="post-bg" id="page-header" style="background-image: url(https://i.loli.net/2021/01/01/CsrMxYN4GTBugfJ.jpg)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">BobHongYuChen's Blog</a></span><span id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音樂</span></a></li><li><a class="site-page" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 電影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div><span class="close" id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><div id="post-title"><div class="posttitle">Flutter探索之路--Chapter 1</div></div><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2020-12-20T03:41:10.000Z" title="发表于 2020-12-20 11:41:10">2020-12-20</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-01-03T14:46:19.408Z" title="更新于 2021-01-03 22:46:19">2021-01-03</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Flutter/">Flutter</a></span></div><div class="meta-secondline"> <span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.1k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>8分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><h1 id="Flutter探索之路–Chapter-1"><a href="#Flutter探索之路–Chapter-1" class="headerlink" title="Flutter探索之路–Chapter 1"></a>Flutter探索之路–Chapter 1</h1><h2 id="HelloWorld–国际惯例"><a href="#HelloWorld–国际惯例" class="headerlink" title="HelloWorld–国际惯例"></a>HelloWorld–国际惯例</h2><p>国际惯例编写Hello World</p>
+<figure class="highlight dart"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">&#x27;package:flutter/material.dart&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> main() =&gt; runApp(<span class="keyword">new</span> MyApp());</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyApp</span> <span class="keyword">extends</span> <span class="title">StatelessWidget</span> </span>&#123;</span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  Widget build(BuildContext context) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> MaterialApp(</span><br><span class="line">      title: <span class="string">&#x27;Welcome to Flutter&#x27;</span>,</span><br><span class="line">      home: <span class="keyword">new</span> Scaffold(</span><br><span class="line">        appBar: <span class="keyword">new</span> AppBar(</span><br><span class="line">          title: <span class="keyword">new</span> Text(<span class="string">&#x27;Welcome to Flutter&#x27;</span>),</span><br><span class="line">        ),</span><br><span class="line">        body: <span class="keyword">new</span> Center(</span><br><span class="line">          child: <span class="keyword">new</span> Text(<span class="string">&#x27;Hello World&#x27;</span>),</span><br><span class="line">        ),</span><br><span class="line">      ),</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>编译运行，如下：</p>
+<img src="C:\Users\HongYuChen\AppData\Roaming\Typora\typora-user-images\image-20200719202914500.png" alt="image-20200719202914500" style="zoom: 50%;" />
+
+<h3 id="引用库"><a href="#引用库" class="headerlink" title="引用库"></a>引用库</h3><p>flutter中，我们通过import语句进行引用</p>
+<figure class="highlight dart"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">&#x27;dart:io&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">&#x27;package:mylib/mylib.dart&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>当多个库中有冲突的名字的时候</p>
+<figure class="highlight dart"><table><tr><td class="code"><pre><span class="line"><span class="built_in">Element</span> element = <span class="keyword">new</span> <span class="built_in">Element</span>();</span><br><span class="line">lib2.<span class="built_in">Element</span> element2 = <span class="keyword">new</span> lib2.<span class="built_in">Element</span>();</span><br></pre></td></tr></table></figure>
+
+<p>引用库的一部分</p>
+<figure class="highlight dart"><table><tr><td class="code"><pre><span class="line"><span class="comment">//导入foo</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&#x27;package:lib1/lib.dart&#x27;</span> <span class="keyword">show</span> foo;</span><br><span class="line"></span><br><span class="line"><span class="comment">//除了foo导入其他所有内容</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&#x27;package:lib2/lib2.dart&#x27;</span> <span class="keyword">hide</span> foo;</span><br></pre></td></tr></table></figure>
+
+<h2 id="开始学习–Flutter体系结构"><a href="#开始学习–Flutter体系结构" class="headerlink" title="开始学习–Flutter体系结构"></a>开始学习–Flutter体系结构</h2><p><img src="https://upload-images.jianshu.io/upload_images/6098829-5214c31d4df0c390.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/554/format/webp" alt="img"></p>
+<blockquote>
+<p>框架层（Framework）</p>
+</blockquote>
+<p>框架层是由Dart所编写的，里面包含：Material（Material Design风格的组件）、Cupertino（针对iOS风格的组件）、Widgets（组件）、Rendering（渲染）、Animation（动画）、Painting（绘制）、Gestures（手势）、Foundation（基础库）。通常开发者使用Framework层所提供的API去开发自己的项目。</p>
+<blockquote>
+<p>引擎层（Engine）</p>
+</blockquote>
+<p>引擎层（Engine）是由C++编写而成，里面包含Skia、Dart、Text三个部分。</p>
+<ul>
+<li>Skia：图形渲染库</li>
+<li>Dart：Dart VM虚拟机，用于编译和运行Dart代码</li>
+<li>Text：文本渲染（区分平台）</li>
+</ul>
+<h2 id="开始学习–Flutter程序结构"><a href="#开始学习–Flutter程序结构" class="headerlink" title="开始学习–Flutter程序结构"></a>开始学习–Flutter程序结构</h2><p><img src="https://upload-images.jianshu.io/upload_images/6098829-60c25e0c8b787d89.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/363/format/webp" alt="img"></p>
+<blockquote>
+<p>新建Flutter项目的结构和原生android的工程结构不一样，我们不能用android那种多module 多lib的结构去创建module和lib，因为我们的代码都是在<code>lib</code>目录里面完成的，除非要用到原生交互的代码，你可以在<code>android</code>目录里面去写，然后在<code>lib</code>目录里面去引用这些交互的代码。</p>
+</blockquote>
+<ul>
+<li>Android目录<ul>
+<li>存放的是Flutter与android原生交互的一些代码，这个路径的文件和创建单独的Android项目的基本一样的</li>
+</ul>
+</li>
+<li>ios目录<ul>
+<li>存放的是Flutter与ios原生交互的一些代码。</li>
+</ul>
+</li>
+<li>lib目录<ul>
+<li>存放的是Dart语言编写的代码，这里是<code>核心代码</code>。不管是Android平台，还是ios平台，安装配置好环境，可以把dart代码运行到对应的设备或模拟器上面</li>
+</ul>
+</li>
+<li>pubspec.yaml文件<ul>
+<li>配置依赖项的文件，比如配置远程pub仓库的依赖库，或者指定本地资源（图片、字体、音频、视频等）</li>
+</ul>
+</li>
+</ul>
+<h2 id="开始学习–打包项目"><a href="#开始学习–打包项目" class="headerlink" title="开始学习–打包项目"></a>开始学习–打包项目</h2><h3 id="创建keystore证书"><a href="#创建keystore证书" class="headerlink" title="创建keystore证书"></a>创建keystore证书</h3><p>创建命令：</p>
+<blockquote>
+<p>keytool -genkey -alias flutterkey -keyalg RSA -keysize 1024 -keypass 123456 -validity 3650 -storepass 111111 -keystore D:\keytoolTest\flutterkeys.jks</p>
+</blockquote>
+<p>命令解析：</p>
+<ul>
+<li>-genkey: 创建一个默认的.keystore文件</li>
+<li>-alias flutterkey: flutterkey就是keyAlias的值</li>
+<li>-keyalg: 指定密钥加密算法，命令中使用的是RSA算法</li>
+<li>-keysize: 密钥长度</li>
+<li>keyPassword: 密钥密码</li>
+<li>storePassword: 密钥库口令</li>
+<li>storeFile: 证书存放路径</li>
+</ul>
+<h3 id="代码中配置证书"><a href="#代码中配置证书" class="headerlink" title="代码中配置证书"></a>代码中配置证书</h3><p>进入android目录，新建一个key.properties文件，具体填写如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">storePassword&#x3D;111111</span><br><span class="line">keyPassword&#x3D;123456</span><br><span class="line">keyAlias&#x3D;flutterkey</span><br><span class="line">storeFile&#x3D;D:\keytoolTest\flutterkeys.jks</span><br></pre></td></tr></table></figure>
+
+<h3 id="在Gradle中配置签名"><a href="#在Gradle中配置签名" class="headerlink" title="在Gradle中配置签名"></a>在Gradle中配置签名</h3><p>build.gradle中修改如下：</p>
+<figure class="highlight ruby"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">keystorePropertiesFile</span> = <span class="title">rootProject</span>.<span class="title">file</span><span class="params">(<span class="string">&quot;key.properties&quot;</span>)</span></span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">keystoreProperties</span> = <span class="title">new</span> <span class="title">Properties</span><span class="params">()</span></span></span><br><span class="line">keystoreProperties.load(new FileInputStream(keystorePropertiesFile))</span><br></pre></td></tr></table></figure>
+
+<p>signingConfigs中修改如下：</p>
+<figure class="highlight dart"><table><tr><td class="code"><pre><span class="line">signingConfigs &#123;</span><br><span class="line">  release &#123;</span><br><span class="line">    <span class="comment">// 读取key.properties配置文件里面的每一项</span></span><br><span class="line">    keyAlias keystoreProperties[<span class="string">&#x27;keyAlias&#x27;</span>]</span><br><span class="line">    keyPassword keystoreProperties[<span class="string">&#x27;keyPassword&#x27;</span>]</span><br><span class="line">    storeFile file(keystoreProperties[<span class="string">&#x27;storeFile&#x27;</span>])</span><br><span class="line">    storePassword keystoreProperties[<span class="string">&#x27;storePassword&#x27;</span>]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>buildTypes修改：</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/6098829-c1499e72b952afc9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/472/format/webp" alt="img"></p>
+<h3 id="构建应用"><a href="#构建应用" class="headerlink" title="构建应用"></a>构建应用</h3><ul>
+<li>cd flutter项目根路径（例如：cd E:/flutter_demo )。</li>
+<li>运行flutter build apk`(flutter build命令默认使用–release)。</li>
+<li>release版本的APK会生成在flutter项目根路径/build/app/outputs/apk/app-release.apk</li>
+</ul>
+<h2 id="Flutter的Theme"><a href="#Flutter的Theme" class="headerlink" title="Flutter的Theme"></a>Flutter的Theme</h2><p>创建主题的方式是将ThemeData提供给MaterialApp构造函数，ThemeData的主要属性如下表</p>
+<table>
+<thead>
+<tr>
+<th>属性名</th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>accentColor</td>
+<td>Color</td>
+<td>前景色（文本、按钮）</td>
+</tr>
+<tr>
+<td>accentColorBrightness</td>
+<td>Brightness</td>
+<td>accentColor的亮度</td>
+</tr>
+<tr>
+<td>accentIconTheme</td>
+<td>IconThemeData</td>
+<td>与突出颜色对照的图片主题</td>
+</tr>
+<tr>
+<td>accentTextTheme</td>
+<td>TextTheme</td>
+<td>与突出颜色对照的文本主题</td>
+</tr>
+<tr>
+<td>backgroundColor</td>
+<td>Color</td>
+<td>与primaryColor对比的颜色</td>
+</tr>
+<tr>
+<td>bottomAppBarColor</td>
+<td>Color</td>
+<td>BottomAppBar的默认颜色</td>
+</tr>
+<tr>
+<td>brightness</td>
+<td>Brightness</td>
+<td>应用程序整体主题亮度</td>
+</tr>
+<tr>
+<td>buttonColor</td>
+<td>Color</td>
+<td>RaisedButtons的默认填充色</td>
+</tr>
+<tr>
+<td>buttonTheme</td>
+<td>ButtonThemeData</td>
+<td>按钮等控件的默认配置主题</td>
+</tr>
+<tr>
+<td>canvasColor</td>
+<td>Color</td>
+<td>MaterialType.canvas的默认颜色</td>
+</tr>
+<tr>
+<td>cardColor</td>
+<td>Color</td>
+<td>Material用于Card的时候的颜色</td>
+</tr>
+<tr>
+<td>chipTheme</td>
+<td>ChipThemeData</td>
+<td>Chip的样式</td>
+</tr>
+<tr>
+<td>dialogBackgroundColor</td>
+<td>Color</td>
+<td>Dialog的背景色</td>
+</tr>
+<tr>
+<td>disabledColor</td>
+<td>Color</td>
+<td>不可用状态下的颜色</td>
+</tr>
+<tr>
+<td>dividerColor</td>
+<td>Color</td>
+<td>分割线颜色</td>
+</tr>
+<tr>
+<td>errorColor</td>
+<td>Color</td>
+<td>验证错误的颜色</td>
+</tr>
+<tr>
+<td>hashColor</td>
+<td>int</td>
+<td>对象hash值</td>
+</tr>
+<tr>
+<td>highlightColor</td>
+<td>Color</td>
+<td>高亮颜色</td>
+</tr>
+<tr>
+<td>iconTheme</td>
+<td>IconThemeData</td>
+<td>图标主题</td>
+</tr>
+<tr>
+<td>indicatorColor</td>
+<td>Color</td>
+<td>TabBar选中时的颜色</td>
+</tr>
+<tr>
+<td>inputDecorationTheme</td>
+<td>InputDecorationTheme</td>
+<td>InputDecoration主题</td>
+</tr>
+<tr>
+<td>platform</td>
+<td>TargetPlatform</td>
+<td>Widget需要适配的目标类型</td>
+</tr>
+<tr>
+<td>primaryColor</td>
+<td>Color</td>
+<td>App主要部分的背景色</td>
+</tr>
+<tr>
+<td>primaryColorBrightness</td>
+<td>Brightness</td>
+<td>primaryColor的亮度</td>
+</tr>
+<tr>
+<td>primaryColorDark</td>
+<td>Color</td>
+<td>primaryColor的暗色颜色</td>
+</tr>
+<tr>
+<td>primaryColorLight</td>
+<td>Color</td>
+<td>primaryColor的亮色颜色</td>
+</tr>
+<tr>
+<td>primaryIconTheme</td>
+<td>IconThemeData</td>
+<td>一个与主色对比的图片主题</td>
+</tr>
+<tr>
+<td>primaryTextTheme</td>
+<td>TextThemeData</td>
+<td>一个与主色对比的文本主题</td>
+</tr>
+<tr>
+<td>scaffoldBackgroundColor</td>
+<td>Color</td>
+<td>Scaffold的默认颜色</td>
+</tr>
+<tr>
+<td>secondaryHeaderColor</td>
+<td>Color</td>
+<td>有选定行时PaginatedDataTable标题的颜色</td>
+</tr>
+<tr>
+<td>selectedRowColor</td>
+<td>Color</td>
+<td>选中行时的高亮颜色</td>
+</tr>
+<tr>
+<td>sliderTheme</td>
+<td>SliderThemeData</td>
+<td>slider的主题</td>
+</tr>
+<tr>
+<td>splashColor</td>
+<td>Color</td>
+<td>墨水喷溅的颜色</td>
+</tr>
+<tr>
+<td>slpashFactory</td>
+<td>InteractiveInkFeatureFactory</td>
+<td>InkWall和InkResponse的墨水喷溅外观</td>
+</tr>
+<tr>
+<td>textSelectionColor</td>
+<td>Color</td>
+<td>选中文本的颜色</td>
+</tr>
+<tr>
+<td>textSelectionHandleColor</td>
+<td>Color</td>
+<td>当前文本的哪个部分的句柄颜色</td>
+</tr>
+<tr>
+<td>textTheme</td>
+<td>TextTheme</td>
+<td>与卡片和画布对比的文本颜色</td>
+</tr>
+<tr>
+<td>toggleableActiveColor</td>
+<td>Color</td>
+<td>切换widget的活动状态的颜色</td>
+</tr>
+<tr>
+<td>unselectedWidgetColor</td>
+<td>Color</td>
+<td>widget处于非活动状态下的颜色</td>
+</tr>
+<tr>
+<td>runtimeType</td>
+<td>Type</td>
+<td>对象的运行时类型</td>
+</tr>
+</tbody></table>
+<p>如果没有提供主题，Flutter会创建一个默认主题</p>
+<h3 id="局部主题"><a href="#局部主题" class="headerlink" title="局部主题"></a>局部主题</h3><p>关于主题，如果我们希望在应用程序的一部分使用其他的主题，我们可以有两种方式创建，创建特有的主题数据或者扩展父主题</p>
+<h4 id="创建特有的主题"><a href="#创建特有的主题" class="headerlink" title="创建特有的主题"></a>创建特有的主题</h4><p>实例化一个ThemeData对象，并传递给Theme，例如</p>
+<figure class="highlight dart"><table><tr><td class="code"><pre><span class="line">Theme(</span><br><span class="line">    data: ThemeData(accentColor: Colors.yellow),</span><br><span class="line">    child: FloatingActionButton(</span><br><span class="line">      onPressed: () &#123;&#125;,</span><br><span class="line">      child: Icon(Icons.add),</span><br><span class="line">    ));</span><br></pre></td></tr></table></figure>
+
+<h4 id="扩展父主题"><a href="#扩展父主题" class="headerlink" title="扩展父主题"></a>扩展父主题</h4><p>扩展父主题的时候，可以不需要覆盖所有的主题属性，我们可以通过copyWith方法来实现，例如</p>
+<figure class="highlight dart"><table><tr><td class="code"><pre><span class="line">Theme(</span><br><span class="line">    data: Theme.of(context).copyWith(accentColor: Colors.yellow),</span><br><span class="line">    child: FloatingActionButton(</span><br><span class="line">      onPressed: () &#123;&#125;,</span><br><span class="line">      child: Icon(Icons.add),</span><br><span class="line">    ));</span><br></pre></td></tr></table></figure>
+
+<h4 id="实战距离"><a href="#实战距离" class="headerlink" title="实战距离"></a>实战距离</h4><p>我们设置应用的主题颜色为绿色，界面中间的文本背景为橙色、FloatingActionButton的背景颜色为橙色</p>
+<figure class="highlight dart"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">&#x27;package:flutter/material.dart&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> main() &#123;</span><br><span class="line">  runApp(MyApp());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyApp</span> <span class="keyword">extends</span> <span class="title">StatelessWidget</span> </span>&#123;</span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  Widget build(BuildContext context) &#123;</span><br><span class="line">    <span class="keyword">final</span> appName = <span class="string">&#x27;自定义主题学习&#x27;</span>;</span><br><span class="line">    <span class="keyword">return</span> MaterialApp(</span><br><span class="line">      title: appName,</span><br><span class="line">      theme: ThemeData(</span><br><span class="line">          brightness: Brightness.light,</span><br><span class="line">          primaryColor: Colors.lightGreen[<span class="number">600</span>],</span><br><span class="line">          accentColor: Colors.orange[<span class="number">600</span>]),</span><br><span class="line">      home: MyHomePage(title: appName),</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyHomePage</span> <span class="keyword">extends</span> <span class="title">StatelessWidget</span> </span>&#123;</span><br><span class="line">  MyHomePage(&#123;Key key, <span class="keyword">this</span>.title&#125;) : <span class="keyword">super</span>(key: key);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">final</span> <span class="built_in">String</span> title;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  Widget build(BuildContext context) &#123;</span><br><span class="line">    <span class="keyword">return</span> Scaffold(</span><br><span class="line">      appBar: AppBar(</span><br><span class="line">        title: Text(title),</span><br><span class="line">      ),</span><br><span class="line">      body: Center(</span><br><span class="line">        child: Container(</span><br><span class="line">          color: Theme.of(context).accentColor,</span><br><span class="line">          child: Text(<span class="string">&#x27;当前文本有背景颜色&#x27;</span>, style: Theme.of(context).textTheme.title),</span><br><span class="line">        ),</span><br><span class="line">      ),</span><br><span class="line">      floatingActionButton: Theme(</span><br><span class="line">        data: Theme.of(context).copyWith(accentColor: Colors.grey),</span><br><span class="line">        child: FloatingActionButton(</span><br><span class="line">          onPressed: <span class="keyword">null</span>,</span><br><span class="line">          child: Icon(Icons.computer),</span><br><span class="line">        ),</span><br><span class="line">      ),</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行之后效果就是这样的</p>
+<img src="https://i.loli.net/2021/01/03/qUGCsa9d2rxg7KW.png" alt="image-20210103223127597.png" style="zoom: 50%;" />
+
+<h2 id="开始学习–Stateful和Stateless-Widget"><a href="#开始学习–Stateful和Stateless-Widget" class="headerlink" title="开始学习–Stateful和Stateless Widget"></a>开始学习–Stateful和Stateless Widget</h2><p>State<em>less</em> widgets 是不可变的, 这意味着它们的属性不能改变 - 所有的值都是最终的</p>
+<p>State<em>ful</em> widgets 持有的状态可能在widget生命周期中发生变化. 实现一个 stateful widget 至少需要两个类：</p>
+<ul>
+<li>一个 StatefulWidget类</li>
+<li>一个 State类。 StatefulWidget类本身是不变的，但是 State类在widget生命周期中始终存在</li>
+</ul>
+<p>我们在通过VS Code的命令创建flutter project之后，默认生成的project就是一个有状态组件的示例，这个示例中，点击+号按钮，中间的数字就会+1。分析这个demo：</p>
+<img src="https://i.loli.net/2021/01/03/7FrY1Rbk3eEXviK.png" alt="image-20210103223653452.png" style="zoom: 50%;" />
+
+<h3 id="官方Demo简单分析"><a href="#官方Demo简单分析" class="headerlink" title="官方Demo简单分析"></a>官方Demo简单分析</h3><p>代码中，MyHomePage继承自StatefulWidget类，并重写了createState方法：</p>
+<figure class="highlight dart"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyHomePage</span> <span class="keyword">extends</span> <span class="title">StatefulWidget</span> </span>&#123;</span><br><span class="line">  MyHomePage(&#123;Key key, <span class="keyword">this</span>.title&#125;) : <span class="keyword">super</span>(key: key);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// This widget is the home page of your application. It is stateful, meaning</span></span><br><span class="line">  <span class="comment">// that it has a State object (defined below) that contains fields that affect</span></span><br><span class="line">  <span class="comment">// how it looks.</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// This class is the configuration for the state. It holds the values (in this</span></span><br><span class="line">  <span class="comment">// case the title) provided by the parent (in this case the App widget) and</span></span><br><span class="line">  <span class="comment">// used by the build method of the State. Fields in a Widget subclass are</span></span><br><span class="line">  <span class="comment">// always marked &quot;final&quot;.</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">final</span> <span class="built_in">String</span> title;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  _MyHomePageState createState() =&gt; _MyHomePageState();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>而状态类必须继承自State类，例如：</p>
+<figure class="highlight dart"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">_MyHomePageState</span> <span class="keyword">extends</span> <span class="title">State</span>&lt;<span class="title">MyHomePage</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>变量以下划线（_）开头，在Dart语言中使用下划线前缀标识符，会强制其变成私有的</p>
+</blockquote>
+<p>之后定义一个变量_counter作为计数器，通过调用setState方法来控制这个变量</p>
+<figure class="highlight dart"><table><tr><td class="code"><pre><span class="line"><span class="built_in">int</span> _counter = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> _incrementCounter() &#123;</span><br><span class="line">  setState(() &#123;</span><br><span class="line">    <span class="comment">// This call to setState tells the Flutter framework that something has</span></span><br><span class="line">    <span class="comment">// changed in this State, which causes it to rerun the build method below</span></span><br><span class="line">    <span class="comment">// so that the display can reflect the updated values. If we changed</span></span><br><span class="line">    <span class="comment">// _counter without calling setState(), then the build method would not be</span></span><br><span class="line">    <span class="comment">// called again, and so nothing would appear to happen.</span></span><br><span class="line">    _counter++;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>完整代码，可以创建工程之后阅读</p>
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">BobHongYuChen</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2020/12/20/flutter_study_week1/">http://example.com/2020/12/20/flutter_study_week1/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">BobHongYuChen's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Flutter%E6%8E%A2%E7%B4%A2%E4%B9%8B%E8%B7%AF/">Flutter探索之路</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2021/01/01/CsrMxYN4GTBugfJ.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2020/12/27/AndroidBaseKnowledge-Paint/"><img class="prev-cover" src="https://i.loli.net/2021/01/01/CsrMxYN4GTBugfJ.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">AndroidBaseKnowledge-Paint</div></div></a></div><div class="next-post pull-right"><a href="/2020/12/13/flutter_vscode_install_about/"><img class="next-cover" src="https://i.loli.net/2021/01/01/CsrMxYN4GTBugfJ.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Flutter VScode开发环境搭建手册</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></article></main><footer id="footer" data-type="color"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By BobHongYuChen</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi, Welcome to my Blog</div></div></footer></div><section id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">簡</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></section><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script>var endLoading = function () {
+  document.body.style.overflow = 'auto';
+  document.getElementById('loading-box').classList.add("loaded")
+}
+window.addEventListener('load',endLoading)</script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    window.valine = new Valine({
+      el: '#vcomment',
+      appId: 'hQwIlAKCuqx8d2sl0iCm3Hun-gzGzoHsz',
+      appKey: 'l6prKe34MDjyW82jCiqHiwWw',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: false,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+    });
+    if ('nick') { valine.config.requiredFields= 'nick'.split(',') }
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else $.getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js', initValine)
+}
+
+if ('Valine' === 'Valine' || !true) {
+  if (true) btf.loadComment(document.querySelector('#vcomment'),loadValine)
+  else setTimeout(() => loadValine(), 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><canvas class="fireworks"></canvas><script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script><script src="/js/third-party/fireworks.js"></script><script defer="defer" id="ribbon" src="/js/third-party/canvas-ribbon.js" size="150" alpha="0.6" zIndex="-1" mobile="false" data-click="false"></script><script src="/js/third-party/activate-power-mode.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+document.body.addEventListener('input', POWERMODE);
+</script></div></body></html>
