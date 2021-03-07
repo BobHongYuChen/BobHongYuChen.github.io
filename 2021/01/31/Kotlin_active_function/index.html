@@ -1,0 +1,214 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Kotlin高级函数--顶层函数 | BobHongYuChen's Blog</title><meta name="description" content="Kotlin高级函数–顶层函数顶层函数在我们的日常的开发过程中我们或多或少的会创建一些Util类，一般我们的写法是这样的： package com.example;import android.content.Context;import android.widget.Toast;public class ToastUtil &amp;#123;    private static Toast mToas"><meta name="keywords" content="Kotlin"><meta name="author" content="BobHongYuChen"><meta name="copyright" content="BobHongYuChen"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2021/01/31/Kotlin_active_function/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta property="og:type" content="article"><meta property="og:title" content="Kotlin高级函数--顶层函数"><meta property="og:url" content="http://example.com/2021/01/31/Kotlin_active_function/"><meta property="og:site_name" content="BobHongYuChen's Blog"><meta property="og:description" content="Kotlin高级函数–顶层函数顶层函数在我们的日常的开发过程中我们或多或少的会创建一些Util类，一般我们的写法是这样的： package com.example;import android.content.Context;import android.widget.Toast;public class ToastUtil &amp;#123;    private static Toast mToas"><meta property="og:image" content="https://i.loli.net/2021/01/01/CsrMxYN4GTBugfJ.jpg"><meta property="article:published_time" content="2021-01-31T05:41:10.000Z"><meta property="article:modified_time" content="2021-03-07T04:47:51.528Z"><meta name="twitter:card" content="summary"><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  hexoversion: '5.2.0',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime: '天',
+  date_suffix: {"one_hour":"刚刚","hours":"小时前","day":"天前"},
+  copyright: {"limitCount":50,"languages":{"author":"作者: BobHongYuChen","link":"链接: ","source":"来源: BobHongYuChen's Blog","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: {"bookmark":{"message_prev":"按","message_next":"键将本页加入书签"},"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#121212","position":"bottom-left"},
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  baiduPush: false,
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+    },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isSidebar: true,
+  postUpdate: '2021-03-07 12:47:51'
+}</script><noscript><style type="text/css">
+#nav {
+  opacity: 1
+}
+.justified-gallery img {
+  opacity: 1
+}
+</style></noscript><script>var activateDarkMode = function () {
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+  }
+}
+var activateLightMode = function () {
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+  }
+}
+
+var autoChangeMode = 'false'
+var t = saveToLocal.get('theme')
+if (autoChangeMode === '1') {
+  var isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+  var isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+  var isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined) {
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport) {
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour <= 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+    }
+    window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+      if (saveToLocal.get('theme') === undefined) {
+        e.matches ? activateDarkMode() : activateLightMode()
+      }
+    })
+  } else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else if (autoChangeMode === '2') {
+  now = new Date()
+  hour = now.getHours()
+  isNight = hour <= 6 || hour >= 18
+  if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else {
+  if (t === 'dark') activateDarkMode()
+  else if (t === 'light') activateLightMode()
+}</script><meta name="generator" content="Hexo 5.2.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">7</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">7</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">4</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音樂</span></a></li><li><a class="site-page" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 電影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div></div></div><div id="body-wrap"><div id="sidebar"><i class="fas fa-arrow-right on" id="toggle-sidebar"></i><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Kotlin%E9%AB%98%E7%BA%A7%E5%87%BD%E6%95%B0%E2%80%93%E9%A1%B6%E5%B1%82%E5%87%BD%E6%95%B0"><span class="toc-number">1.</span> <span class="toc-text">Kotlin高级函数–顶层函数</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%B6%E5%B1%82%E5%87%BD%E6%95%B0"><span class="toc-number">1.1.</span> <span class="toc-text">顶层函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8"><span class="toc-number">1.1.1.</span> <span class="toc-text">基本使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%8D%E7%BC%96%E8%AF%91%E7%9C%8B%E7%9C%8B"><span class="toc-number">1.1.2.</span> <span class="toc-text">反编译看看</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E%E9%A1%B6%E5%B1%82%E5%87%BD%E6%95%B0%E7%9A%84%E8%A1%A5%E5%85%85"><span class="toc-number">1.1.3.</span> <span class="toc-text">关于顶层函数的补充</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E4%BD%BF%E7%94%A8Object%E3%80%81%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E4%BD%BF%E7%94%A8%E9%A1%B6%E5%B1%82%E5%87%BD%E6%95%B0%E5%91%A2%EF%BC%9F"><span class="toc-number">1.1.4.</span> <span class="toc-text">什么时候使用Object、什么时候使用顶层函数呢？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A1%B6%E5%B1%82%E5%B1%9E%E6%80%A7"><span class="toc-number">1.1.5.</span> <span class="toc-text">顶层属性</span></a></li></ol></li></ol></li></ol></div></div></div><header class="post-bg" id="page-header" style="background-image: url(https://i.loli.net/2021/01/01/CsrMxYN4GTBugfJ.jpg)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">BobHongYuChen's Blog</a></span><span id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音樂</span></a></li><li><a class="site-page" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 電影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div><span class="close" id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><div id="post-title"><div class="posttitle">Kotlin高级函数--顶层函数</div></div><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-01-31T05:41:10.000Z" title="发表于 2021-01-31 13:41:10">2021-01-31</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-03-07T04:47:51.528Z" title="更新于 2021-03-07 12:47:51">2021-03-07</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Kotlin/">Kotlin</a></span></div><div class="meta-secondline"> <span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.5k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>6分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><h1 id="Kotlin高级函数–顶层函数"><a href="#Kotlin高级函数–顶层函数" class="headerlink" title="Kotlin高级函数–顶层函数"></a>Kotlin高级函数–顶层函数</h1><h2 id="顶层函数"><a href="#顶层函数" class="headerlink" title="顶层函数"></a>顶层函数</h2><p>在我们的日常的开发过程中我们或多或少的会创建一些Util类，一般我们的写法是这样的：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.content.Context;</span><br><span class="line"><span class="keyword">import</span> android.widget.Toast;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ToastUtil</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Toast mToast;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">showToast</span><span class="params">(Context context, String toastContent)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (mToast != <span class="keyword">null</span>) &#123;</span><br><span class="line">            mToast.cancel();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        mToast = Toast.makeText(context, toastContent, Toast.LENGTH_SHORT);</span><br><span class="line">        mToast.show();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">showToast</span><span class="params">(Context context, <span class="keyword">int</span> toastContentResId)</span> </span>&#123;</span><br><span class="line">        showToast(context, context.getResources().getString(toastContentResId));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在使用这个类的时候，我们会通过类名.方法名的方式去调用，例如</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">ToastUtil.showToast(applicationContext, <span class="string">&quot;demo&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>在Kotlin中则认为一个函数或者方法有的时候可以并不属于任何一个类，它可以独立存在。所以在Kotlin中类似静态函数和静态属性可以去掉外层类的容器，一个函数或者属性可以直接定义在一个Kotlin的文件顶层中，在需要使用到这个方法或者属性的地方直接import即可</p>
+<h3 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h3><p>参照上面的ToastUtil，我们可以将其修改为如下的样子</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.content.Context</span><br><span class="line"><span class="keyword">import</span> android.widget.Toast</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">var</span> mToast: Toast? = <span class="literal">null</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">showToastWithKotlin</span><span class="params">(context: <span class="type">Context</span>, toastContent: <span class="type">String</span>)</span></span> &#123;</span><br><span class="line">    mToast.apply &#123;</span><br><span class="line">        Toast.makeText(</span><br><span class="line">            context,</span><br><span class="line">            toastContent,</span><br><span class="line">            Toast.LENGTH_SHORT).also &#123;</span><br><span class="line">            mToast = it.apply &#123;</span><br><span class="line">                show()</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">showToastWithKotlin</span><span class="params">(context: <span class="type">Context</span>, toastContentResID: <span class="type">Int</span>)</span></span> &#123;</span><br><span class="line">    showToastWithKotlin(context, context.resources.getString(toastContentResID))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在其他的Kotlin的类中引用这个函数的时候，我们可以这样引用</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="comment">//Android Studio自动引入包</span></span><br><span class="line"><span class="keyword">import</span> com.example.showToastWithKotlin</span><br><span class="line"></span><br><span class="line">showToastWithKotlin(context, <span class="string">&quot;demo&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>而在其他的Java的类中引用这个函数的时候，我们可以这样引用</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">ToastUtilKotlinKt.showToastWithKotlin(context, <span class="string">&quot;demo&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<h3 id="反编译看看"><a href="#反编译看看" class="headerlink" title="反编译看看"></a>反编译看看</h3><p>上述的Java引用代码中，有细心的小伙伴可能看到我们的这个类不是叫ToastUtilKotlin吗？为什么具体使用的时候用的是ToastUtilKotlinKt，关于这个问题我们可以反编译ToastUtilKotlin这个类看下</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Metadata(</span></span><br><span class="line"><span class="meta">   mv = &#123;1, 1, 18&#125;,</span></span><br><span class="line"><span class="meta">   bv = &#123;1, 0, 3&#125;,</span></span><br><span class="line"><span class="meta">   k = 2,</span></span><br><span class="line"><span class="meta">   d1 = &#123;&quot;\u0000 \n\u0000\n\u0002\u0018\u0002\n\u0000\n\u0002\u0010\u0002\n\u0000\n\u0002\u0018\u0002\n\u0000\n\u0002\u0010\b\n\u0000\n\u0002\u0010\u000e\n\u0000\u001a\u0016\u0010\u0002\u001a\u00020\u00032\u0006\u0010\u0004\u001a\u00020\u00052\u0006\u0010\u0006\u001a\u00020\u0007\u001a\u0016\u0010\u0002\u001a\u00020\u00032\u0006\u0010\u0004\u001a\u00020\u00052\u0006\u0010\b\u001a\u00020\t\&quot;\u0010\u0010\u0000\u001a\u0004\u0018\u00010\u0001X\u0082\u000e¢\u0006\u0002\n\u0000¨\u0006\n&quot;&#125;,</span></span><br><span class="line"><span class="meta">   d2 = &#123;&quot;mToast&quot;, &quot;Landroid/widget/Toast;&quot;, &quot;showToastWithKotlin&quot;, &quot;&quot;, &quot;context&quot;, &quot;Landroid/content/Context;&quot;, &quot;toastContentResID&quot;, &quot;&quot;, &quot;toastContent&quot;, &quot;&quot;, &quot;app&quot;&#125;</span></span><br><span class="line"><span class="meta">)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">ToastUtilKotlinKt</span> </span>&#123;</span><br><span class="line">   <span class="keyword">private</span> <span class="keyword">static</span> Toast mToast;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">showToastWithKotlin</span><span class="params">(<span class="meta">@NotNull</span> Context context, <span class="meta">@NotNull</span> String toastContent)</span> </span>&#123;</span><br><span class="line">      Intrinsics.checkParameterIsNotNull(context, <span class="string">&quot;context&quot;</span>);</span><br><span class="line">      Intrinsics.checkParameterIsNotNull(toastContent, <span class="string">&quot;toastContent&quot;</span>);</span><br><span class="line">      Toast var2 = mToast;</span><br><span class="line">      <span class="keyword">boolean</span> var3 = <span class="keyword">false</span>;</span><br><span class="line">      <span class="keyword">boolean</span> var4 = <span class="keyword">false</span>;</span><br><span class="line">      <span class="keyword">int</span> var6 = <span class="keyword">false</span>;</span><br><span class="line">      Toast var7 = Toast.makeText(context, (CharSequence)toastContent, <span class="number">0</span>);</span><br><span class="line">      <span class="keyword">boolean</span> var8 = <span class="keyword">false</span>;</span><br><span class="line">      <span class="keyword">boolean</span> var9 = <span class="keyword">false</span>;</span><br><span class="line">      <span class="keyword">int</span> var11 = <span class="keyword">false</span>;</span><br><span class="line">      <span class="keyword">boolean</span> var13 = <span class="keyword">false</span>;</span><br><span class="line">      <span class="keyword">boolean</span> var14 = <span class="keyword">false</span>;</span><br><span class="line">      <span class="keyword">int</span> var16 = <span class="keyword">false</span>;</span><br><span class="line">      var7.show();</span><br><span class="line">      mToast = var7;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">showToastWithKotlin</span><span class="params">(<span class="meta">@NotNull</span> Context context, <span class="keyword">int</span> toastContentResID)</span> </span>&#123;</span><br><span class="line">      Intrinsics.checkParameterIsNotNull(context, <span class="string">&quot;context&quot;</span>);</span><br><span class="line">      String var10001 = context.getResources().getString(toastContentResID);</span><br><span class="line">      Intrinsics.checkExpressionValueIsNotNull(var10001, <span class="string">&quot;context.resources.getString(toastContentResID)&quot;</span>);</span><br><span class="line">      showToastWithKotlin(context, var10001);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>顶层文件会被反编译为一个容器类，类名默认是顶层文件名+”Kt“后缀，注意容器类名可以自定义</p>
+<blockquote>
+<p>通过Kotlin中的@file:JvmName(“自定义生成的类名”)注解就可以自动生成对应的Java调用类名，注意需要放在文件的顶部，在package声明的前面</p>
+</blockquote>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="meta">@file:JvmName</span>(<span class="string">&quot;TestClassName&quot;</span>)</span><br><span class="line"><span class="keyword">package</span> com.example</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>顶层函数被反编译之后会编译为一个static静态函数，如代码中的两个showToastWithKotlin函数</p>
+</li>
+</ul>
+<h3 id="关于顶层函数的补充"><a href="#关于顶层函数的补充" class="headerlink" title="关于顶层函数的补充"></a>关于顶层函数的补充</h3><p>是否可以通过@file:JvmName注解实现将两个Kotlin中的文件在Java调用的时候”同名“？</p>
+<p>答案是可以的，举个例子:</p>
+<p>我们定义了两个不同的Kotlin文件，分别叫做ToastUtilKotlinKt和ToastUtilNotKotlinKt</p>
+<p><img src="C:\Users\HongYuChen\AppData\Roaming\Typora\typora-user-images\image-20210306162807873.png" alt="image-20210306162807873"></p>
+<p>两个类的代码为：</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="meta">@file:JvmName</span>(<span class="string">&quot;TestClassName&quot;</span>)</span><br><span class="line"><span class="keyword">package</span> com.example</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.content.Context</span><br><span class="line"><span class="keyword">import</span> android.widget.Toast</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">var</span> mToast: Toast? = <span class="literal">null</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">showToastWithKotlin</span><span class="params">(context: <span class="type">Context</span>, toastContent: <span class="type">String</span>)</span></span> &#123;</span><br><span class="line">    mToast.apply &#123;</span><br><span class="line">        Toast.makeText(</span><br><span class="line">            context,</span><br><span class="line">            toastContent,</span><br><span class="line">            Toast.LENGTH_SHORT).also &#123;</span><br><span class="line">            mToast = it.apply &#123;</span><br><span class="line">                show()</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">showToastWithKotlin</span><span class="params">(context: <span class="type">Context</span>, toastContentResID: <span class="type">Int</span>)</span></span> &#123;</span><br><span class="line">    showToastWithKotlin(context, context.resources.getString(toastContentResID))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="meta">@file:JvmName</span>(<span class="string">&quot;TestClassName&quot;</span>)</span><br><span class="line"><span class="keyword">package</span> com.example</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.content.Context</span><br><span class="line"><span class="keyword">import</span> android.widget.Toast</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">var</span> mToast: Toast? = <span class="literal">null</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">showToastNotWithKotlin</span><span class="params">(context: <span class="type">Context</span>, toastContent: <span class="type">String</span>)</span></span> &#123;</span><br><span class="line">    mToast.apply &#123;</span><br><span class="line">        Toast.makeText(</span><br><span class="line">            context,</span><br><span class="line">            toastContent,</span><br><span class="line">            Toast.LENGTH_SHORT).also &#123;</span><br><span class="line">            mToast = it.apply &#123;</span><br><span class="line">                show()</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">showToastNotWithKotlin</span><span class="params">(context: <span class="type">Context</span>, toastContentResID: <span class="type">Int</span>)</span></span> &#123;</span><br><span class="line">    showToastWithKotlin(context, context.resources.getString(toastContentResID))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们在Java调用的时候就可以同名了</p>
+<p><img src="C:\Users\HongYuChen\AppData\Roaming\Typora\typora-user-images\image-20210306163048887.png" alt="image-20210306163048887"></p>
+<h3 id="什么时候使用Object、什么时候使用顶层函数呢？"><a href="#什么时候使用Object、什么时候使用顶层函数呢？" class="headerlink" title="什么时候使用Object、什么时候使用顶层函数呢？"></a>什么时候使用Object、什么时候使用顶层函数呢？</h3><p>Android Studio提供了一个强制把代码从Java转为Kotlin的方法，我们在强转Util的时候往往最后转出来的并不是顶层函数，而是一个Object类。例如：</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.content.Context</span><br><span class="line"><span class="keyword">import</span> android.widget.Toast</span><br><span class="line"></span><br><span class="line"><span class="keyword">object</span> ToastUtil &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">var</span> mToast: Toast? = <span class="literal">null</span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">showToast</span><span class="params">(context: <span class="type">Context</span>?, toastContent: <span class="type">String</span>?)</span></span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (mToast != <span class="literal">null</span>) &#123;</span><br><span class="line">            mToast!!.cancel()</span><br><span class="line">        &#125;</span><br><span class="line">        mToast = Toast.makeText(context, toastContent, Toast.LENGTH_SHORT)</span><br><span class="line">        mToast?.show()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">showToast</span><span class="params">(context: <span class="type">Context</span>, toastContentResId: <span class="type">Int</span>)</span></span> &#123;</span><br><span class="line">        showToast(context, context.resources.getString(toastContentResId))</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这个类是我把ToastUtil从Java强转为了Kotlin之后得到的代码。</p>
+<p>那问题来了，我们应该如何判断和评估，我们到底是应当使用一个Object类呢，还是说使用一个Top-level的函数？</p>
+<p>我查看了下StackOverflow和Kotlin的社区，看到Kotlin的开发者给出的结论是：</p>
+<blockquote>
+<p>The recommended practice is to never use object for creating namespaces, and always use top-level declarations when possible. We haven’t found name conflicts to be an issue, and if you do get a conflict, you can resolve it using an import with alias.这个是讨论的连接，感兴趣的伙伴可以看下下面的讨论<a target="_blank" rel="noopener" href="https://discuss.kotlinlang.org/t/best-practices-for-top-level-declarations/2198">https://discuss.kotlinlang.org/t/best-practices-for-top-level-declarations/2198</a></p>
+</blockquote>
+<p>最后我自己关于这个问题的回答是，工具类方法尽量写成Top-level（可以写成多个kt文件，每个文件中有不同场景的顶层函数），而Object Class当做单例来使用</p>
+<h3 id="顶层属性"><a href="#顶层属性" class="headerlink" title="顶层属性"></a>顶层属性</h3><p>既然有顶层方法，应该也有顶层属性。和顶层函数一样，属性也可以放在文件的顶层，不附属与任何一个类。这种属性叫顶层属性。</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.content.Context</span><br><span class="line"><span class="keyword">import</span> android.widget.Toast</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> mToast: Toast? = <span class="literal">null</span></span><br></pre></td></tr></table></figure>
+
+<p>顶层属性和其他任意属性一样，都提供对应的访问器（val 变量提供getter,var 变量提供getter和 setter）。也就是说，当Java访问该顶层属性时，通过访问器进行访问的。</p>
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">BobHongYuChen</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2021/01/31/Kotlin_active_function/">http://example.com/2021/01/31/Kotlin_active_function/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">BobHongYuChen's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Kotlin/">Kotlin</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2021/01/01/CsrMxYN4GTBugfJ.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2021/01/31/flutter_widget_container/"><img class="next-cover" src="https://i.loli.net/2021/01/01/CsrMxYN4GTBugfJ.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Flutter探索之路之Widget(Container篇)</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></article></main><footer id="footer" data-type="color"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By BobHongYuChen</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi, Welcome to my Blog</div></div></footer></div><section id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">簡</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></section><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script>var endLoading = function () {
+  document.body.style.overflow = 'auto';
+  document.getElementById('loading-box').classList.add("loaded")
+}
+window.addEventListener('load',endLoading)</script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    window.valine = new Valine({
+      el: '#vcomment',
+      appId: 'hQwIlAKCuqx8d2sl0iCm3Hun-gzGzoHsz',
+      appKey: 'l6prKe34MDjyW82jCiqHiwWw',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: false,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+    });
+    if ('nick') { valine.config.requiredFields= 'nick'.split(',') }
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else $.getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js', initValine)
+}
+
+if ('Valine' === 'Valine' || !true) {
+  if (true) btf.loadComment(document.querySelector('#vcomment'),loadValine)
+  else setTimeout(() => loadValine(), 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><canvas class="fireworks"></canvas><script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script><script src="/js/third-party/fireworks.js"></script><script defer="defer" id="ribbon" src="/js/third-party/canvas-ribbon.js" size="150" alpha="0.6" zIndex="-1" mobile="false" data-click="false"></script><script src="/js/third-party/activate-power-mode.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+document.body.addEventListener('input', POWERMODE);
+</script></div></body></html>
