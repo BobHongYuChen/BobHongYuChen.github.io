@@ -1,0 +1,275 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Android MVVM Study Note--ViewModel学习总结&amp;&amp;源码解析 | BobHongYuChen's Blog</title><meta name="description" content="Android MVVM Study Note–ViewModel学习总结&amp;&amp;源码解析https:&#x2F;&#x2F;developer.android.com&#x2F;topic&#x2F;libraries&#x2F;architecture&#x2F;viewmodel 简介ViewModel是Android Jetpack组件库中的一个组件，其主要特性为ViewModel自身同Activity、Fragment、Service"><meta name="keywords" content="JetPack,ViewModel,MVVM,Android 组件化"><meta name="author" content="BobHongYuChen"><meta name="copyright" content="BobHongYuChen"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2021/07/27/Android%20MVVM%20Study%20Note--ViewModel/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta property="og:type" content="article"><meta property="og:title" content="Android MVVM Study Note--ViewModel学习总结&amp;&amp;源码解析"><meta property="og:url" content="http://example.com/2021/07/27/Android%20MVVM%20Study%20Note--ViewModel/"><meta property="og:site_name" content="BobHongYuChen's Blog"><meta property="og:description" content="Android MVVM Study Note–ViewModel学习总结&amp;&amp;源码解析https:&#x2F;&#x2F;developer.android.com&#x2F;topic&#x2F;libraries&#x2F;architecture&#x2F;viewmodel 简介ViewModel是Android Jetpack组件库中的一个组件，其主要特性为ViewModel自身同Activity、Fragment、Service"><meta property="og:image" content="https://i.loli.net/2021/08/01/eUVhYNdjW3bHmI6.jpg"><meta property="article:published_time" content="2021-07-27T03:41:10.000Z"><meta property="article:modified_time" content="2021-08-01T09:20:14.782Z"><meta name="twitter:card" content="summary"><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  hexoversion: '5.2.0',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime: '天',
+  date_suffix: {"one_hour":"刚刚","hours":"小时前","day":"天前"},
+  copyright: {"limitCount":50,"languages":{"author":"作者: BobHongYuChen","link":"链接: ","source":"来源: BobHongYuChen's Blog","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: {"bookmark":{"message_prev":"按","message_next":"键将本页加入书签"},"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#121212","position":"bottom-left"},
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  baiduPush: false,
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+    },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isSidebar: true,
+  postUpdate: '2021-08-01 17:20:14'
+}</script><noscript><style type="text/css">
+#nav {
+  opacity: 1
+}
+.justified-gallery img {
+  opacity: 1
+}
+</style></noscript><script>var activateDarkMode = function () {
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+  }
+}
+var activateLightMode = function () {
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+  }
+}
+
+var autoChangeMode = 'false'
+var t = saveToLocal.get('theme')
+if (autoChangeMode === '1') {
+  var isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+  var isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+  var isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined) {
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport) {
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour <= 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+    }
+    window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+      if (saveToLocal.get('theme') === undefined) {
+        e.matches ? activateDarkMode() : activateLightMode()
+      }
+    })
+  } else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else if (autoChangeMode === '2') {
+  now = new Date()
+  hour = now.getHours()
+  isNight = hour <= 6 || hour >= 18
+  if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else {
+  if (t === 'dark') activateDarkMode()
+  else if (t === 'light') activateLightMode()
+}</script><meta name="generator" content="Hexo 5.2.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">10</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">12</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">5</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音樂</span></a></li><li><a class="site-page" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 電影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div></div></div><div id="body-wrap"><div id="sidebar"><i class="fas fa-arrow-right on" id="toggle-sidebar"></i><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Android-MVVM-Study-Note%E2%80%93ViewModel%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93-amp-amp-%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90"><span class="toc-number">1.</span> <span class="toc-text">Android MVVM Study Note–ViewModel学习总结&amp;&amp;源码解析</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-number">1.1.</span> <span class="toc-text">简介</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ViewModel%E7%9A%84%E4%BC%98%E5%8A%BF"><span class="toc-number">1.1.1.</span> <span class="toc-text">ViewModel的优势</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ViewModel%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-number">1.2.</span> <span class="toc-text">ViewModel的使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ViewModel%E7%9A%84%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0"><span class="toc-number">1.2.1.</span> <span class="toc-text">ViewModel的构造函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8ViewModel%E6%98%AF%E9%9C%80%E8%A6%81%E9%81%BF%E5%85%8D%E7%9A%84%E8%AF%AF%E5%8C%BA"><span class="toc-number">1.2.2.</span> <span class="toc-text">使用ViewModel是需要避免的误区</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ViewModel%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="toc-number">1.3.</span> <span class="toc-text">ViewModel的生命周期</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ViewModel-%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90"><span class="toc-number">1.4.</span> <span class="toc-text">ViewModel 源码解析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%A5%E5%8F%A3%E2%80%93-gt-%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0"><span class="toc-number">1.4.1.</span> <span class="toc-text">入口–&gt;构造函数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#ViewModelStore"><span class="toc-number">1.4.1.1.</span> <span class="toc-text">ViewModelStore</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Factory"><span class="toc-number">1.4.1.2.</span> <span class="toc-text">Factory</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96ViewModel"><span class="toc-number">1.4.2.</span> <span class="toc-text">获取ViewModel</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#SavedStateViewModelFactory"><span class="toc-number">1.4.2.1.</span> <span class="toc-text">SavedStateViewModelFactory</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#NewInstanceFactory"><span class="toc-number">1.4.2.2.</span> <span class="toc-text">NewInstanceFactory</span></a></li></ol></li></ol></li></ol></li></ol></div></div></div><header class="post-bg" id="page-header" style="background-image: url(https://i.loli.net/2021/08/01/eUVhYNdjW3bHmI6.jpg)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">BobHongYuChen's Blog</a></span><span id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音樂</span></a></li><li><a class="site-page" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 電影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div><span class="close" id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><div id="post-title"><div class="posttitle">Android MVVM Study Note--ViewModel学习总结&amp;&amp;源码解析</div></div><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-07-27T03:41:10.000Z" title="发表于 2021-07-27 11:41:10">2021-07-27</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-08-01T09:20:14.782Z" title="更新于 2021-08-01 17:20:14">2021-08-01</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Android/">Android</a></span></div><div class="meta-secondline"> <span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.6k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>6分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><h1 id="Android-MVVM-Study-Note–ViewModel学习总结-amp-amp-源码解析"><a href="#Android-MVVM-Study-Note–ViewModel学习总结-amp-amp-源码解析" class="headerlink" title="Android MVVM Study Note–ViewModel学习总结&amp;&amp;源码解析"></a>Android MVVM Study Note–ViewModel学习总结&amp;&amp;源码解析</h1><p><a target="_blank" rel="noopener" href="https://developer.android.com/topic/libraries/architecture/viewmodel">https://developer.android.com/topic/libraries/architecture/viewmodel</a></p>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>ViewModel是Android Jetpack组件库中的一个组件，其主要特性为ViewModel自身同Activity、Fragment、Service的生命周期绑定，在组件的声明周期内数据会一直保存在内存中。</p>
+<p>简而言之，它就是一个具有生命感知能力的用于存储和管理数据的组件</p>
+<h3 id="ViewModel的优势"><a href="#ViewModel的优势" class="headerlink" title="ViewModel的优势"></a>ViewModel的优势</h3><ul>
+<li><p><strong>与UI层的低耦合</strong></p>
+<ul>
+<li>在MVVM模式的设计中，ViewModel只需要关注数据和业务逻辑而不需要处理UI上的逻辑</li>
+</ul>
+</li>
+<li><p><strong>Fragment间共享ViewModel的数据</strong></p>
+<ul>
+<li>使用ViewModel共享数据可以免去Fragment之前相互回调，官方文档介绍如下：</li>
+<li><a target="_blank" rel="noopener" href="https://developer.android.google.cn/topic/libraries/architecture/viewmodel#sharing">https://developer.android.google.cn/topic/libraries/architecture/viewmodel#sharing</a></li>
+<li>使用ViewModel可以让Fragment之间在进行数据共享的时候，不需要对彼此进行引用，也不需要依赖于同一个parent activity</li>
+</ul>
+</li>
+<li><p><strong>数据一直保存在内存中</strong></p>
+<ul>
+<li>ViewModel的数据会一直保存在内存中，如果当我们的Activity因为Config变化导致Activity发生重建的时候可以避免重复加载数据</li>
+</ul>
+</li>
+<li><p><strong>遵守单一职责设计原则（每个类应当只有一个职责）</strong></p>
+<ul>
+<li><p>在以往的开发中，数据逻辑的变量以及对象是保存在Activity或者Fragment内的，随着页面功能以及业务逻辑的增加，代码也会变的很冗杂。</p>
+</li>
+<li><blockquote>
+<p>在使用了ViewModel之后，我们应当避免在ViewModel中实现过多的职责。ViewModel只负责用于管理UI界面数据，同时我们可以创建一个Presenter类用于处理UI界面数据，创建一个Repository类用于保存和载入数据的唯一接口</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li><p><strong>ViewModel+LiveData = 响应式UI</strong></p>
+</li>
+</ul>
+<p>补充一个Google推荐的Activity和ViewModel之间的结构</p>
+<p><img src="https://i.loli.net/2021/07/31/fxPbysT6c3KF5G8.png" alt="MVVM-第 2 页.png"></p>
+<h2 id="ViewModel的使用"><a href="#ViewModel的使用" class="headerlink" title="ViewModel的使用"></a>ViewModel的使用</h2><p>我们可以通过以下步骤来创建并使用ViewModel</p>
+<ul>
+<li><p><strong>第一步</strong>，继承自ViewModel类创建自己的ViewModel</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> androidx.lifecycle.MutableLiveData</span><br><span class="line"><span class="keyword">import</span> androidx.lifecycle.ViewModel</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CountChangeViewModel</span> : <span class="type">ViewModel</span></span>() &#123;</span><br><span class="line">    <span class="keyword">var</span> count = MutableLiveData&lt;<span class="built_in">Int</span>&gt;()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">init</span> &#123;</span><br><span class="line">        count.value = <span class="number">0</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>第二步</strong>，在Activity的onCreate方法中，使用ViewModelProvider这个类来获取对应的ViewModel</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">val</span> colorChangeViewModel = ViewModelProvider(<span class="keyword">this</span>).<span class="keyword">get</span>(CountChangeViewModel::<span class="keyword">class</span>.java)	</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>第三步</strong>，此时我们就可以通过获取到的ViewModel对象来访问具体的数据了</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">val</span> currentCount = colorChangeViewModel.count</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="ViewModel的构造函数"><a href="#ViewModel的构造函数" class="headerlink" title="ViewModel的构造函数"></a>ViewModel的构造函数</h3><p>ViewModel的默认构造函数是没有参数的，在实际的开发过程中可能有些具体的业务希望ViewModel能有带参数的构造函数</p>
+<ul>
+<li><p><strong>默认构造函数，在获取ViewModel之后立刻给变量赋值</strong></p>
+</li>
+<li><p><strong>使用ViewModelFactory‘来创建自定义构造函数</strong></p>
+<ul>
+<li><p><strong>第一步</strong>，我们可以继承自ViewModelProvider.NewInstanceFactory() 创建属于我们自己的Factory</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ViewModelFactory</span> <span class="keyword">constructor</span></span>(<span class="keyword">private</span> <span class="keyword">val</span> repository: String) : ViewModelProvider.NewInstanceFactory() &#123; &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>第二步，我们需要覆写里面的create方法</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ViewModelFactory</span> <span class="keyword">constructor</span></span>(<span class="keyword">private</span> <span class="keyword">val</span> repository: String) : ViewModelProvider.NewInstanceFactory() &#123;</span><br><span class="line"></span><br><span class="line">    override fun &lt;T : ViewModel?&gt; create(modelClass: Class&lt;T&gt;): T = with(modelClass) &#123;</span><br><span class="line">        <span class="keyword">when</span> &#123;</span><br><span class="line">            isAssignableFrom(CountChangeViewModel::<span class="keyword">class</span>.java) -&gt; CountChangeViewModel(repository)</span><br><span class="line"></span><br><span class="line">            <span class="keyword">else</span> -&gt; &#123;</span><br><span class="line">                <span class="keyword">throw</span> IllegalArgumentException(</span><br><span class="line">                    <span class="string">&quot;Unknown ViewModel class: <span class="subst">$&#123;modelClass.name&#125;</span>&quot;</span>)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">as</span> T</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://i.loli.net/2021/07/31/9hSYvTbJ6kUKeC5.png" alt="image-20210729231644137.png"></p>
+</li>
+<li><p><strong>第三步</strong>，此时我们可以将原来的ViewModel的使用方式换成</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">val</span> factory = ViewModelFactory(<span class="string">&quot;test&quot;</span>)</span><br><span class="line"><span class="keyword">val</span> colorChangeViewModel = ViewModelProvider(<span class="keyword">this</span>, factory).<span class="keyword">get</span>(CountChangeViewModel::<span class="keyword">class</span>.java)</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="使用ViewModel是需要避免的误区"><a href="#使用ViewModel是需要避免的误区" class="headerlink" title="使用ViewModel是需要避免的误区"></a>使用ViewModel是需要避免的误区</h3><ul>
+<li><strong>Context不能传给ViewModel</strong><ul>
+<li>ViewModel中不应当存在Activity、Fragment甚至View的引用，因为其本身的存在的时候对应的组件可能会被销毁或者创建很多次，如果此时对应的组件被销毁，且ViewModel保存了他们的引用，就会出现内存泄漏问题</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>如果在开发过程中需要用到Application的Context，我们可以将我们的ViewModel继承自 AndroidViewModel，这个类已经含有了Application引用</p>
+</blockquote>
+<ul>
+<li><strong>ViewModel是不可以替代onSaveInstanceState的，因为ViewModel会在应用程序被系统停止的时候销毁</strong></li>
+</ul>
+<blockquote>
+<p>我们应该尽量将UI界面所需的数据保存在ViewModel中，而onSaveInstanceState可以用于保存小量级的数据，应用被强制关闭之后可以使用它来恢复UI界面</p>
+</blockquote>
+<h2 id="ViewModel的生命周期"><a href="#ViewModel的生命周期" class="headerlink" title="ViewModel的生命周期"></a>ViewModel的生命周期</h2><p><img src="https://i.loli.net/2021/07/31/GtZnlaBQpcqy2ev.png" alt="MVVM-viewmodel-life-cicle.png"></p>
+<h2 id="ViewModel-源码解析"><a href="#ViewModel-源码解析" class="headerlink" title="ViewModel 源码解析"></a>ViewModel 源码解析</h2><p>首先我们可以从ViewModel的初始化开始往下看。</p>
+<h3 id="入口–-gt-构造函数"><a href="#入口–-gt-构造函数" class="headerlink" title="入口–&gt;构造函数"></a>入口–&gt;构造函数</h3><p>ViewModel有三个构造函数，分别是</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Creates &#123;<span class="doctag">@code</span> ViewModelProvider&#125;. This will create &#123;<span class="doctag">@code</span> ViewModels&#125;</span></span><br><span class="line"><span class="comment"> * and retain them in a store of the given &#123;<span class="doctag">@code</span> ViewModelStoreOwner&#125;.</span></span><br><span class="line"><span class="comment"> * &lt;p&gt;</span></span><br><span class="line"><span class="comment"> * This method will use the</span></span><br><span class="line"><span class="comment"> * &#123;<span class="doctag">@link</span> HasDefaultViewModelProviderFactory#getDefaultViewModelProviderFactory() default factory&#125;</span></span><br><span class="line"><span class="comment"> * if the owner implements &#123;<span class="doctag">@link</span> HasDefaultViewModelProviderFactory&#125;. Otherwise, a</span></span><br><span class="line"><span class="comment"> * &#123;<span class="doctag">@link</span> NewInstanceFactory&#125; will be used.</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">ViewModelProvider</span><span class="params">(<span class="meta">@NonNull</span> ViewModelStoreOwner owner)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>(owner.getViewModelStore(), owner <span class="keyword">instanceof</span> HasDefaultViewModelProviderFactory ? ((HasDefaultViewModelProviderFactory) owner).getDefaultViewModelProviderFactory() : NewInstanceFactory.getInstance());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Creates &#123;<span class="doctag">@code</span> ViewModelProvider&#125;, which will create &#123;<span class="doctag">@code</span> ViewModels&#125; via the given</span></span><br><span class="line"><span class="comment"> * &#123;<span class="doctag">@code</span> Factory&#125; and retain them in a store of the given &#123;<span class="doctag">@code</span> ViewModelStoreOwner&#125;.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> owner   a &#123;<span class="doctag">@code</span> ViewModelStoreOwner&#125; whose &#123;<span class="doctag">@link</span> ViewModelStore&#125; will be used to</span></span><br><span class="line"><span class="comment"> *                retain &#123;<span class="doctag">@code</span> ViewModels&#125;</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> factory a &#123;<span class="doctag">@code</span> Factory&#125; which will be used to instantiate</span></span><br><span class="line"><span class="comment"> *                new &#123;<span class="doctag">@code</span> ViewModels&#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">ViewModelProvider</span><span class="params">(<span class="meta">@NonNull</span> ViewModelStoreOwner owner, <span class="meta">@NonNull</span> Factory factory)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>(owner.getViewModelStore(), factory);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Creates &#123;<span class="doctag">@code</span> ViewModelProvider&#125;, which will create &#123;<span class="doctag">@code</span> ViewModels&#125; via the given</span></span><br><span class="line"><span class="comment"> * &#123;<span class="doctag">@code</span> Factory&#125; and retain them in the given &#123;<span class="doctag">@code</span> store&#125;.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> store   &#123;<span class="doctag">@code</span> ViewModelStore&#125; where ViewModels will be stored.</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> factory factory a &#123;<span class="doctag">@code</span> Factory&#125; which will be used to instantiate</span></span><br><span class="line"><span class="comment"> *                new &#123;<span class="doctag">@code</span> ViewModels&#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">ViewModelProvider</span><span class="params">(<span class="meta">@NonNull</span> ViewModelStore store, <span class="meta">@NonNull</span> Factory factory)</span> </span>&#123;</span><br><span class="line">    mFactory = factory;</span><br><span class="line">    mViewModelStore = store;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>通过构造函数，我们可以看到最终我们需要的是两个参数ViewModelStore以及Factory，我们先来看ViewModelStore这个类</p>
+<h4 id="ViewModelStore"><a href="#ViewModelStore" class="headerlink" title="ViewModelStore"></a>ViewModelStore</h4><p>顾名思义，ViewModelStore是用于存储ViewModel的一个类</p>
+<p><img src="https://i.loli.net/2021/08/01/sq51UZOjKuyP4XI.png" alt="image-20210731112238902.png"></p>
+<h4 id="Factory"><a href="#Factory" class="headerlink" title="Factory"></a>Factory</h4><p>Factory表示创建ViewModel的工厂</p>
+<p><img src="https://i.loli.net/2021/08/01/Hx2c7neIX1bo3z6.png" alt="image-20210731213148042.png"></p>
+<h3 id="获取ViewModel"><a href="#获取ViewModel" class="headerlink" title="获取ViewModel"></a>获取ViewModel</h3><p>之后我们可以通过ViewModelProvider的get方法获取ViewModel的实例，在代码中我们可以看到是根据mFactory的类型来决定采用什么方式创建ViewModel的</p>
+<p><img src="https://i.loli.net/2021/08/01/XevjlhDgUf2CBrm.png" alt="image-20210731215735837.png"></p>
+<p>而Factory的类型是由ViewModelStoreOwner决定的，一种是SavedStateViewModelFactory，另一种是NewInstanceFactory，我们可以看下两者create方法的不同</p>
+<blockquote>
+<p>可能有朋友会有一个疑问，这里的判断是KeyedFactory，为什么上文中描述的并没有它，二十SavedStateViewModelFactory，我们可以再回过头看下构造函数</p>
+<p><img src="https://i.loli.net/2021/08/01/oraUzbqhLJvVKn5.png" alt="image-20210731222834090.png"></p>
+<p>这里的创建分为了两种，一类是默认的Factory，一类是NewInstanceFactory，我们细看下getDefaultViewModelProviderFactory这个方法</p>
+<p><img src="https://i.loli.net/2021/08/01/6YP3deDrKo5SEvA.png" alt="image-20210731222927305.png"></p>
+<p>其实现分别位于ComponentActivity和Fragment中，而这两个类中，创建的都是SavedStateViewModelFactory实例</p>
+<p><img src="https://i.loli.net/2021/08/01/WQeFCP1htdgfisR.png" alt="image-20210731223014300.png"></p>
+<p><img src="https://i.loli.net/2021/08/01/BsE82b9fiPqJTGp.png" alt="image-20210731223033545.png"></p>
+</blockquote>
+<h4 id="SavedStateViewModelFactory"><a href="#SavedStateViewModelFactory" class="headerlink" title="SavedStateViewModelFactory"></a>SavedStateViewModelFactory</h4><p><img src="https://i.loli.net/2021/08/01/ni6ZDFAEr59yXMb.png" alt="image-20210731220815433.png"></p>
+<p>从这个地方我们就可以看到，在我们的ViewModel是AndroidViewModel的时候，就会加入mApplication参数，通过这个参数，我们就可以在ViewModel里用到Application的Context。</p>
+<h4 id="NewInstanceFactory"><a href="#NewInstanceFactory" class="headerlink" title="NewInstanceFactory"></a>NewInstanceFactory</h4><p>NewInstanceFactory创建过程相对简单，通过Class的newInstance()方法直接创建ViewModel实例</p>
+<p><img src="https://i.loli.net/2021/08/01/dovlypYKSuPJVH8.png" alt="image-20210731215848168.png"></p>
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">BobHongYuChen</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2021/07/27/Android%20MVVM%20Study%20Note--ViewModel/">http://example.com/2021/07/27/Android%20MVVM%20Study%20Note--ViewModel/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">BobHongYuChen's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/JetPack/">JetPack</a><a class="post-meta__tags" href="/tags/ViewModel/">ViewModel</a><a class="post-meta__tags" href="/tags/MVVM/">MVVM</a><a class="post-meta__tags" href="/tags/Android-%E7%BB%84%E4%BB%B6%E5%8C%96/">Android 组件化</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2021/08/01/eUVhYNdjW3bHmI6.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2021/04/03/Jvm_study_note_1_2/"><img class="next-cover" src="https://i.loli.net/2021/04/05/JbyRBkdLq8t6jCH.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">深入拆解Java虚拟机学习笔记2</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></article></main><footer id="footer" data-type="color"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By BobHongYuChen</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi, Welcome to my Blog</div></div></footer></div><section id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">簡</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></section><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script>var endLoading = function () {
+  document.body.style.overflow = 'auto';
+  document.getElementById('loading-box').classList.add("loaded")
+}
+window.addEventListener('load',endLoading)</script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    window.valine = new Valine({
+      el: '#vcomment',
+      appId: 'hQwIlAKCuqx8d2sl0iCm3Hun-gzGzoHsz',
+      appKey: 'l6prKe34MDjyW82jCiqHiwWw',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: false,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: true,
+      path: window.location.pathname,
+    });
+    if ('nick') { valine.config.requiredFields= 'nick'.split(',') }
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else $.getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js', initValine)
+}
+
+if ('Valine' === 'Valine' || !true) {
+  if (true) btf.loadComment(document.querySelector('#vcomment'),loadValine)
+  else setTimeout(() => loadValine(), 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><canvas class="fireworks"></canvas><script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script><script src="/js/third-party/fireworks.js"></script><script defer="defer" id="ribbon" src="/js/third-party/canvas-ribbon.js" size="150" alpha="0.6" zIndex="-1" mobile="false" data-click="false"></script><script src="/js/third-party/activate-power-mode.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+document.body.addEventListener('input', POWERMODE);
+</script></div></body></html>
